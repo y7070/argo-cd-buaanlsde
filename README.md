@@ -6,6 +6,7 @@
 
 ``` bash
 NAMESPACE=argocd-sig
+kubectl create ns ${NAMESPACE}
 sed "s/NAMESPACE/${NAMESPACE}/g" ./manifests/install-with-exists.yaml | kubectl apply -n ${NAMESPACE} -f -
 ```
 
