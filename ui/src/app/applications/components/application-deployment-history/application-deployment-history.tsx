@@ -33,26 +33,26 @@ export const ApplicationDeploymentHistory = ({
                 <div className='row application-deployment-history__item' key={info.deployedAt} onClick={() => selectDeployment(index)}>
                     <div className='columns small-3'>
                         <div>
-                            <i className='fa fa-clock' /> Deployed At:
+                            <i className='fa fa-clock' /> 应用创建时间:
                             <br />
                             <Timestamp date={info.deployedAt} />
                         </div>
                         <div>
                             <br />
-                            <i className='fa fa-hourglass-half' /> Time to deploy:
+                            <i className='fa fa-hourglass-half' /> 应用部署时间:
                             <br />
                             {(info.deployStartedAt && <Duration durationMs={moment(info.deployedAt).diff(moment(info.deployStartedAt)) / 1000} />) || 'Unknown'}
                         </div>
                         <div>
                             <br />
-                            Active for:
+                            持续时间:
                             <br />
                             <Duration durationMs={info.durationMs} />
                         </div>
                     </div>
                     <div className='columns small-9'>
                         <div className='row'>
-                            <div className='columns small-3'>Revision:</div>
+                            <div className='columns small-3'>修订版本:</div>
                             <div className='columns small-9'>
                                 <Revision repoUrl={info.source.repoURL} revision={info.revision} />
                                 <div className='application-deployment-history__item-menu'>

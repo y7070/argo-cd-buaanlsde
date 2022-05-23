@@ -42,14 +42,14 @@ export const ApplicationStatusPanel = ({application, showOperation, showConditio
                     <HealthStatusIcon state={application.status.health} />
                     &nbsp;
                     {application.status.health.status}
-                    <HelpIcon title='The health status of your app' />
+                    <HelpIcon title='应用健康状况' />
                 </div>
                 <div className='application-status-panel__item-name'>{application.status.health.message}</div>
             </div>
             <div className='application-status-panel__item columns small-2' style={{position: 'relative'}}>
                 <div className='application-status-panel__item-value'>
                     <ComparisonStatusIcon status={application.status.sync.status} label={true} />
-                    <HelpIcon title='Whether or not the version of your app is up to date with your repo. You may wish to sync your app if it is out-of-sync.' />
+                    <HelpIcon title='表明您的应用是否进行了同步' />
                 </div>
                 <div className='application-status-panel__item-name'>{syncStatusMessage(application)}</div>
                 <div className='application-status-panel__item-name'>
@@ -65,9 +65,9 @@ export const ApplicationStatusPanel = ({application, showOperation, showConditio
                             <OperationState app={application} />
                             <HelpIcon
                                 title={
-                                    'Whether or not your last app sync was successful. It has been ' +
+                                    '表明您的应用是否同步成功。距离上一次同步已经过去了' +
                                     daysSinceLastSynchronized +
-                                    ' days since last sync. Click for the status of that sync.'
+                                    '天，点击可查看上次更新。'
                                 }
                             />
                         </a>

@@ -137,7 +137,7 @@ function renderFilteredNode(node: {count: number} & dagre.Node, onClearFilter: (
                 </div>
                 <div className='application-resource-tree__node-content-wrap-overflow'>
                     <a className='application-resource-tree__node-title' onClick={onClearFilter}>
-                        clear filters to show {node.count} additional resource{node.count > 1 && 's'}
+                        清楚过滤条件来显示其他 {node.count} 个资源
                     </a>
                 </div>
             </div>
@@ -183,9 +183,9 @@ function renderLoadBalancerNode(node: dagre.Node & {label: string; color: string
 }
 
 export const describeNode = (node: ResourceTreeNode) => {
-    const lines = [`Kind: ${node.kind}`, `Namespace: ${node.namespace}`, `Name: ${node.name}`];
+    const lines = [`类型: ${node.kind}`, `命名空间: ${node.namespace}`, `名称: ${node.name}`];
     if (node.images) {
-        lines.push('Images:');
+        lines.push('镜像:');
         node.images.forEach(i => lines.push(`- ${i}`));
     }
     return lines.join('\n');
@@ -463,8 +463,8 @@ export const ApplicationResourceTree = (props: ApplicationResourceTreeProps) => 
     return (
         (graphNodes.length === 0 && (
             <EmptyState icon=' fa fa-network-wired'>
-                <h4>Your application has no network resources</h4>
-                <h5>Try switching to tree or list view</h5>
+                <h4>您的应用中不包含网络资源</h4>
+                <h5>试试切换到 tree 视图或者 list 视图</h5>
             </EmptyState>
         )) || (
             <div

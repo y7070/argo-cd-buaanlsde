@@ -18,12 +18,12 @@ interface Props {
 
 export const ApplicationOperationState: React.StatelessComponent<Props> = ({application, operationState}, ctx: AppContext) => {
     const operationAttributes = [
-        {title: 'OPERATION', value: utils.getOperationType(application)},
-        {title: 'PHASE', value: operationState.phase},
-        ...(operationState.message ? [{title: 'MESSAGE', value: operationState.message}] : []),
-        {title: 'STARTED AT', value: <Timestamp date={operationState.startedAt} />},
+        {title: '操作', value: utils.getOperationType(application)},
+        {title: '阶段', value: operationState.phase},
+        ...(operationState.message ? [{title: '操作信息', value: operationState.message}] : []),
+        {title: '开始时间', value: <Timestamp date={operationState.startedAt} />},
         {
-            title: 'DURATION',
+            title: '持续时间',
             value: (
                 <Ticker>
                     {time => <Duration durationMs={((operationState.finishedAt && moment(operationState.finishedAt)) || time).diff(moment(operationState.startedAt)) / 1000} />}
@@ -33,7 +33,7 @@ export const ApplicationOperationState: React.StatelessComponent<Props> = ({appl
     ];
 
     if (operationState.finishedAt && operationState.phase !== 'Running') {
-        operationAttributes.push({title: 'FINISHED AT', value: <Timestamp date={operationState.finishedAt} />});
+        operationAttributes.push({title: '结束时间', value: <Timestamp date={operationState.finishedAt} />});
     } else if (operationState.phase !== 'Terminating') {
         operationAttributes.push({
             title: '',
@@ -41,13 +41,13 @@ export const ApplicationOperationState: React.StatelessComponent<Props> = ({appl
                 <button
                     className='argo-button argo-button--base'
                     onClick={async () => {
-                        const confirmed = await ctx.apis.popup.confirm('Terminate operation', 'Are you sure you want to terminate operation?');
+                        const confirmed = await ctx.apis.popup.confirm('终止操作', '你确定想要终止当前操作?');
                         if (confirmed) {
                             try {
                                 await services.applications.terminateOperation(application.metadata.name);
                             } catch (e) {
                                 ctx.apis.notifications.show({
-                                    content: <ErrorNotification title='Unable to terminate operation' e={e} />,
+                                    content: <ErrorNotification title='无法终止操作' e={e} />,
                                     type: NotificationType.Error
                                 });
                             }
@@ -59,7 +59,7 @@ export const ApplicationOperationState: React.StatelessComponent<Props> = ({appl
         });
     }
     if (operationState.syncResult) {
-        operationAttributes.push({title: 'REVISION', value: <Revision repoUrl={application.spec.source.repoURL} revision={operationState.syncResult.revision} />});
+        operationAttributes.push({title: '修订版本', value: <Revision repoUrl={application.spec.source.repoURL} revision={operationState.syncResult.revision} />});
     }
     let initiator = '';
     if (operationState.operation.initiatedBy) {
@@ -69,7 +69,7 @@ export const ApplicationOperationState: React.StatelessComponent<Props> = ({appl
             initiator = operationState.operation.initiatedBy.username;
         }
     }
-    operationAttributes.push({title: 'INITIATED BY', value: initiator || 'Unknown'});
+    operationAttributes.push({title: '初始化用户', value: initiator || 'Unknown'});
 
     const resultAttributes: {title: string; value: string}[] = [];
     const syncResult = operationState.syncResult;
@@ -98,16 +98,16 @@ export const ApplicationOperationState: React.StatelessComponent<Props> = ({appl
             </div>
             {syncResult && syncResult.resources && syncResult.resources.length > 0 && (
                 <React.Fragment>
-                    <h4>Result:</h4>
+                    <h4>结果:</h4>
                     <div className='argo-table-list'>
                         <div className='argo-table-list__head'>
                             <div className='row'>
-                                <div className='columns large-1 show-for-large application-operation-state__icons_container_padding'>KIND</div>
-                                <div className='columns large-2 show-for-large'>NAMESPACE</div>
-                                <div className='columns large-2 small-2'>NAME</div>
-                                <div className='columns large-1 small-2'>STATUS</div>
+                                <div className='columns large-1 show-for-large application-operation-state__icons_container_padding'>类型</div>
+                                <div className='columns large-2 show-for-large'>命名空间</div>
+                                <div className='columns large-2 small-2'>名称</div>
+                                <div className='columns large-1 small-2'>状态</div>
                                 <div className='columns large-1 show-for-large'>HOOK</div>
-                                <div className='columns large-4 small-8'>MESSAGE</div>
+                                <div className='columns large-4 small-8'>操作信息</div>
                             </div>
                         </div>
                         {syncResult.resources.map((resource, i) => (

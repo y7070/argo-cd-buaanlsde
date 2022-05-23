@@ -41,14 +41,14 @@ export const ApplicationTiles = ({applications, syncApplication, refreshApplicat
                                         </div>
                                     </div>
                                     <div className='row'>
-                                        <div className='columns small-3' title='Project:'>
-                                            Project:
+                                        <div className='columns small-3' title='项目组:'>
+                                            项目组:
                                         </div>
                                         <div className='columns small-9'>{app.spec.project}</div>
                                     </div>
                                     <div className='row'>
-                                        <div className='columns small-3' title='Labels:'>
-                                            Labels:
+                                        <div className='columns small-3' title='标签:'>
+                                            标签:
                                         </div>
                                         <div className='columns small-9'>
                                             <Tooltip
@@ -72,8 +72,8 @@ export const ApplicationTiles = ({applications, syncApplication, refreshApplicat
                                         </div>
                                     </div>
                                     <div className='row'>
-                                        <div className='columns small-3' title='Status:'>
-                                            Status:
+                                        <div className='columns small-3' title='状态:'>
+                                            状态:
                                         </div>
                                         <div className='columns small-9' qe-id='applications-tiles-health-status'>
                                             <AppUtils.HealthStatusIcon state={app.status.health} /> {app.status.health.status}
@@ -84,8 +84,8 @@ export const ApplicationTiles = ({applications, syncApplication, refreshApplicat
                                         </div>
                                     </div>
                                     <div className='row'>
-                                        <div className='columns small-3' title='Repository:'>
-                                            Repository:
+                                        <div className='columns small-3' title='配置仓库:'>
+                                            配置仓库:
                                         </div>
                                         <div className='columns small-9'>
                                             <Tooltip content={app.spec.source.repoURL}>
@@ -94,38 +94,38 @@ export const ApplicationTiles = ({applications, syncApplication, refreshApplicat
                                         </div>
                                     </div>
                                     <div className='row'>
-                                        <div className='columns small-3' title='Target Revision:'>
-                                            Target Revision:
+                                        <div className='columns small-3' title='目标修改:'>
+                                            目标修改:
                                         </div>
                                         <div className='columns small-9'>{app.spec.source.targetRevision}</div>
                                     </div>
                                     {app.spec.source.path && (
                                         <div className='row'>
-                                            <div className='columns small-3' title='Path:'>
-                                                Path:
+                                            <div className='columns small-3' title='路径:'>
+                                                路径:
                                             </div>
                                             <div className='columns small-9'>{app.spec.source.path}</div>
                                         </div>
                                     )}
                                     {app.spec.source.chart && (
                                         <div className='row'>
-                                            <div className='columns small-3' title='Chart:'>
-                                                Chart:
+                                            <div className='columns small-3' title='应用包:'>
+                                                应用包:
                                             </div>
                                             <div className='columns small-9'>{app.spec.source.chart}</div>
                                         </div>
                                     )}
                                     <div className='row'>
-                                        <div className='columns small-3' title='Destination:'>
-                                            Destination:
+                                        <div className='columns small-3' title='目标集群:'>
+                                            目标集群:
                                         </div>
                                         <div className='columns small-9'>
                                             <Cluster server={app.spec.destination.server} name={app.spec.destination.name} />
                                         </div>
                                     </div>
                                     <div className='row'>
-                                        <div className='columns small-3' title='Namespace:'>
-                                            Namespace:
+                                        <div className='columns small-3' title='命名空间:'>
+                                            命名空间:
                                         </div>
                                         <div className='columns small-9'>{app.spec.destination.namespace}</div>
                                     </div>
@@ -138,7 +138,7 @@ export const ApplicationTiles = ({applications, syncApplication, refreshApplicat
                                                     e.stopPropagation();
                                                     syncApplication(app.metadata.name);
                                                 }}>
-                                                <i className='fa fa-sync' /> Sync
+                                                <i className='fa fa-sync' /> 同步
                                             </a>
                                             &nbsp;
                                             <a
@@ -150,7 +150,7 @@ export const ApplicationTiles = ({applications, syncApplication, refreshApplicat
                                                     refreshApplication(app.metadata.name);
                                                 }}>
                                                 <i className={classNames('fa fa-redo', {'status-icon--spin': AppUtils.isAppRefreshing(app)})} />{' '}
-                                                <span className='show-for-xlarge'>Refresh</span>
+                                                <span className='show-for-xlarge'>刷新</span>
                                             </a>
                                             &nbsp;
                                             <a
@@ -160,7 +160,7 @@ export const ApplicationTiles = ({applications, syncApplication, refreshApplicat
                                                     e.stopPropagation();
                                                     deleteApplication(app.metadata.name);
                                                 }}>
-                                                <i className='fa fa-times-circle' /> Delete
+                                                <i className='fa fa-times-circle' /> 删除
                                             </a>
                                         </div>
                                     </div>

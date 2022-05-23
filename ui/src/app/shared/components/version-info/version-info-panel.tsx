@@ -11,7 +11,7 @@ interface VersionPanelProps {
 type CopyState = 'success' | 'failed' | undefined;
 
 export class VersionPanel extends React.Component<VersionPanelProps, {copyState: CopyState}> {
-    private readonly header = 'Argo CD Server Version';
+    private readonly header = '持续部署工具各组件版本';
 
     constructor(props: VersionPanelProps) {
         super(props);
@@ -40,7 +40,7 @@ export class VersionPanel extends React.Component<VersionPanelProps, {copyState:
      */
     private buildVersionTable(version: VersionMessage): JSX.Element {
         const formattedVersion = {
-            'Argo CD': version.Version,
+            'Major Version': version.Version,
             'Build Date': version.BuildDate,
             'Go': version.GoVersion,
             'Compiler': version.Compiler,

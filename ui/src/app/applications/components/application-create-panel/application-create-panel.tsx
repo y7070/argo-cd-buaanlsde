@@ -43,8 +43,8 @@ const DEFAULT_APP: Partial<models.Application> = {
 };
 
 const AutoSyncFormField = ReactFormField((props: {fieldApi: FieldApi; className: string}) => {
-    const manual = 'Manual';
-    const auto = 'Automatic';
+    const manual = '手动';
+    const auto = '自动';
     const {
         fieldApi: {getValue, setValue}
     } = props;
@@ -52,7 +52,7 @@ const AutoSyncFormField = ReactFormField((props: {fieldApi: FieldApi; className:
 
     return (
         <React.Fragment>
-            <label>Sync Policy</label>
+            <label>同步策略</label>
             <Select
                 value={automated ? auto : manual}
                 options={[manual, auto]}
@@ -65,12 +65,12 @@ const AutoSyncFormField = ReactFormField((props: {fieldApi: FieldApi; className:
                     <div className='checkbox-container'>
                         <Checkbox onChange={val => setValue({...automated, prune: val})} checked={!!automated.prune} id='policyPrune' />
                         <label htmlFor='policyPrune'>Prune Resources</label>
-                        <HelpIcon title='If checked, Argo will delete resources if they are no longer defined in Git' />
+                        <HelpIcon title='勾选后本工具会自动删除不在配置仓库中的资源' />
                     </div>
                     <div className='checkbox-container'>
                         <Checkbox onChange={val => setValue({...automated, selfHeal: val})} checked={!!automated.selfHeal} id='policySelfHeal' />
                         <label htmlFor='policySelfHeal'>Self Heal</label>
-                        <HelpIcon title='If checked, Argo will force the state defined in Git into the cluster when a deviation in the cluster is detected' />
+                        <HelpIcon title='勾选后，当集群应用状态发生变化时，会强制恢复应用状态至配置仓库中定义的期望状态' />
                     </div>
                 </div>
             )}
@@ -150,22 +150,22 @@ export const ApplicationCreatePanel = (props: {
                             )) || (
                                 <Form
                                     validateError={(a: models.Application) => ({
-                                        'metadata.name': !a.metadata.name && 'Application name is required',
-                                        'spec.project': !a.spec.project && 'Project name is required',
-                                        'spec.source.repoURL': !a.spec.source.repoURL && 'Repository URL is required',
-                                        'spec.source.targetRevision': !a.spec.source.targetRevision && a.spec.source.hasOwnProperty('chart') && 'Version is required',
-                                        'spec.source.path': !a.spec.source.path && !a.spec.source.chart && 'Path is required',
-                                        'spec.source.chart': !a.spec.source.path && !a.spec.source.chart && 'Chart is required',
+                                        'metadata.name': !a.metadata.name && '应用名称是必须的！',
+                                        'spec.project': !a.spec.project && '项目名称是必须的！',
+                                        'spec.source.repoURL': !a.spec.source.repoURL && '仓库地址是必须的！',
+                                        'spec.source.targetRevision': !a.spec.source.targetRevision && a.spec.source.hasOwnProperty('chart') && '版本是必须的！',
+                                        'spec.source.path': !a.spec.source.path && !a.spec.source.chart && '路径是必须的！',
+                                        'spec.source.chart': !a.spec.source.path && !a.spec.source.chart && 'Chart是必须的！',
                                         // Verify cluster URL when there is no cluster name field or the name value is empty
                                         'spec.destination.server':
                                             !a.spec.destination.server &&
                                             (!a.spec.destination.hasOwnProperty('name') || a.spec.destination.name === '') &&
-                                            'Cluster URL is required',
+                                            '集群地址是必须的！',
                                         // Verify cluster name when there is no cluster URL field or the URL value is empty
                                         'spec.destination.name':
                                             !a.spec.destination.name &&
                                             (!a.spec.destination.hasOwnProperty('server') || a.spec.destination.server === '') &&
-                                            'Cluster name is required'
+                                            '集群名称是必须的！'
                                     })}
                                     defaultValues={app}
                                     formDidUpdate={state => props.onAppChanged(state.values as any)}
@@ -174,7 +174,7 @@ export const ApplicationCreatePanel = (props: {
                                     {api => {
                                         const generalPanel = () => (
                                             <div className='white-box'>
-                                                <p>GENERAL</p>
+                                                <p>基本信息</p>
                                                 {/*
                                                     Need to specify "type='button'" because the default type 'submit'
                                                     will activate yaml mode whenever enter is pressed while in the panel.
@@ -188,13 +188,13 @@ export const ApplicationCreatePanel = (props: {
                                                         type='button'
                                                         className='argo-button argo-button--base application-create-panel__yaml-button'
                                                         onClick={() => setYamlMode(true)}>
-                                                        Edit as YAML
+                                                        使用YAML创建
                                                     </button>
                                                 )}
                                                 <div className='argo-form-row'>
                                                     <FormField
                                                         formApi={api}
-                                                        label='Application Name'
+                                                        label='应用名称'
                                                         qeId='application-create-field-app-name'
                                                         field='metadata.name'
                                                         component={Text}
@@ -203,7 +203,7 @@ export const ApplicationCreatePanel = (props: {
                                                 <div className='argo-form-row'>
                                                     <FormField
                                                         formApi={api}
-                                                        label='Project'
+                                                        label='项目组'
                                                         qeId='application-create-field-project'
                                                         field='spec.project'
                                                         component={AutocompleteField}
@@ -219,7 +219,7 @@ export const ApplicationCreatePanel = (props: {
                                                     />
                                                 </div>
                                                 <div className='argo-form-row'>
-                                                    <label>Sync Options</label>
+                                                    <label>同步选项</label>
                                                     <FormField formApi={api} field='spec.syncPolicy.syncOptions' component={ApplicationSyncOptionsField} />
                                                 </div>
                                             </div>
@@ -228,12 +228,12 @@ export const ApplicationCreatePanel = (props: {
                                         const repoType = (api.getFormState().values.spec.source.hasOwnProperty('chart') && 'helm') || 'git';
                                         const sourcePanel = () => (
                                             <div className='white-box'>
-                                                <p>SOURCE</p>
+                                                <p>配置源仓库</p>
                                                 <div className='row argo-form-row'>
                                                     <div className='columns small-10'>
                                                         <FormField
                                                             formApi={api}
-                                                            label='Repository URL'
+                                                            label='仓库地址'
                                                             qeId='application-create-field-repository-url'
                                                             field='spec.source.repoURL'
                                                             component={AutocompleteField}
@@ -287,7 +287,7 @@ export const ApplicationCreatePanel = (props: {
                                                                 {(apps: string[]) => (
                                                                     <FormField
                                                                         formApi={api}
-                                                                        label='Path'
+                                                                        label='配置路径'
                                                                         qeId='application-create-field-path'
                                                                         field='spec.source.path'
                                                                         component={AutocompleteField}
@@ -343,13 +343,13 @@ export const ApplicationCreatePanel = (props: {
                                         );
                                         const destinationPanel = () => (
                                             <div className='white-box'>
-                                                <p>DESTINATION</p>
+                                                <p>目标集群</p>
                                                 <div className='row argo-form-row'>
                                                     {(destFormat.toUpperCase() === 'URL' && (
                                                         <div className='columns small-10'>
                                                             <FormField
                                                                 formApi={api}
-                                                                label='Cluster URL'
+                                                                label='集群地址'
                                                                 qeId='application-create-field-cluster-url'
                                                                 field='spec.destination.server'
                                                                 componentProps={{items: clusters.map(cluster => cluster.server)}}
@@ -360,7 +360,7 @@ export const ApplicationCreatePanel = (props: {
                                                         <div className='columns small-10'>
                                                             <FormField
                                                                 formApi={api}
-                                                                label='Cluster Name'
+                                                                label='集群名称'
                                                                 qeId='application-create-field-cluster-name'
                                                                 field='spec.destination.name'
                                                                 componentProps={{items: clusters.map(cluster => cluster.name)}}
@@ -400,7 +400,7 @@ export const ApplicationCreatePanel = (props: {
                                                     <FormField
                                                         qeId='application-create-field-namespace'
                                                         formApi={api}
-                                                        label='Namespace'
+                                                        label='命名空间'
                                                         field='spec.destination.namespace'
                                                         component={Text}
                                                     />

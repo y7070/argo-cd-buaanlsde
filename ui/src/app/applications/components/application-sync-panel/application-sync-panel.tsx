@@ -33,10 +33,10 @@ export const ApplicationSyncPanel = ({application, selectedResource, hide}: {app
                                 disabled={isPending}
                                 onClick={() => form.submitForm(null)}>
                                 <Spinner show={isPending} style={{marginRight: '5px'}} />
-                                Synchronize
+                                同步
                             </button>{' '}
                             <button onClick={() => hide()} className='argo-button argo-button--base-o'>
-                                Cancel
+                                取消
                             </button>
                         </div>
                     }>
@@ -76,7 +76,7 @@ export const ApplicationSyncPanel = ({application, selectedResource, hide}: {app
                             {formApi => (
                                 <form role='form' className='width-control' onSubmit={formApi.submitForm}>
                                     <h6>
-                                        Synchronizing application manifests from <a href={application.spec.source.repoURL}>{application.spec.source.repoURL}</a>
+                                        从下面的配置仓库中同步应用: <a href={application.spec.source.repoURL}>{application.spec.source.repoURL}</a>
                                     </h6>
                                     <div className='argo-form-row'>
                                         <FormField formApi={formApi} label='Revision' field='revision' component={Text} />
@@ -97,9 +97,9 @@ export const ApplicationSyncPanel = ({application, selectedResource, hide}: {app
                                                 <Checkbox id='force-checkbox' field='force' /> <label htmlFor='force-checkbox'>Force</label>
                                             </span>
                                         </div>
-                                        <label>Synchronize resources:</label>
+                                        <label>可同步资源:</label>
                                         <div style={{float: 'right'}}>
-                                            <a onClick={() => formApi.setValue('resources', formApi.values.resources.map(() => true))}>all</a> /{' '}
+                                            <a onClick={() => formApi.setValue('resources', formApi.values.resources.map(() => true))}>全部勾选</a> /{' '}
                                             <a
                                                 onClick={() =>
                                                     formApi.setValue(
@@ -107,12 +107,12 @@ export const ApplicationSyncPanel = ({application, selectedResource, hide}: {app
                                                         application.status.resources.map((resource: models.ResourceStatus) => resource.status === models.SyncStatuses.OutOfSync)
                                                     )
                                                 }>
-                                                out of sync
+                                                未同步
                                             </a>{' '}
-                                            / <a onClick={() => formApi.setValue('resources', formApi.values.resources.map(() => false))}>none</a>
+                                            / <a onClick={() => formApi.setValue('resources', formApi.values.resources.map(() => false))}>全部取消</a>
                                         </div>
                                         {!formApi.values.resources.every((item: boolean) => item) && (
-                                            <div className='application-details__warning'>WARNING: partial synchronization is not recorded in history</div>
+                                            <div className='application-details__warning'>WARNING: 部分同步选项不在历史记录中</div>
                                         )}
                                         <div style={{paddingLeft: '1em'}}>
                                             {application.status.resources

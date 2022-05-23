@@ -113,16 +113,16 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
 
                             const filter: TopBarFilter<string> = {
                                 items: [
-                                    {content: () => <span>Sync</span>},
-                                    {value: 'sync:Synced', label: 'Synced'},
+                                    {content: () => <span>同步选项</span>},
+                                    {value: 'sync:Synced', label: '同步'},
                                     // Unhealthy includes 'Unknown' and 'OutOfSync'
-                                    {value: 'sync:OutOfSync', label: 'OutOfSync'},
-                                    {content: () => <span>Health</span>},
-                                    {value: 'health:Healthy', label: 'Healthy'},
-                                    {value: 'health:Progressing', label: 'Progressing'},
-                                    {value: 'health:Degraded', label: 'Degraded'},
-                                    {value: 'health:Missing', label: 'Missing'},
-                                    {value: 'health:Unknown', label: 'Unknown'},
+                                    {value: 'sync:OutOfSync', label: '未同步'},
+                                    {content: () => <span>健康状况</span>},
+                                    {value: 'health:Healthy', label: '健康'},
+                                    {value: 'health:Progressing', label: '进行中'},
+                                    {value: 'health:Degraded', label: '失败'},
+                                    {value: 'health:Missing', label: '丢失'},
+                                    {value: 'health:Unknown', label: '未知'},
                                     {
                                         content: setSelection => (
                                             <div>
@@ -156,10 +156,10 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
                             return (
                                 <div className='application-details'>
                                     <Page
-                                        title='Application Details'
+                                        title='应用详情'
                                         toolbar={{
                                             filter,
-                                            breadcrumbs: [{title: 'Applications', path: '/applications'}, {title: this.props.match.params.name}],
+                                            breadcrumbs: [{title: '应用详情', path: '/applications'}, {title: this.props.match.params.name}],
                                             actionMenu: {items: this.getApplicationActionMenu(application)},
                                             tools: (
                                                 <React.Fragment key='app-list-tools'>
@@ -247,8 +247,8 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
                                                         </Paginate>
                                                     )) || (
                                                         <EmptyState icon='fa fa-search'>
-                                                            <h4>No resources found</h4>
-                                                            <h5>Try to change filter criteria</h5>
+                                                            <h4>未找到相关资源</h4>
+                                                            <h5>尝试更改筛选条件</h5>
                                                         </EmptyState>
                                                     )}
                                                 </div>
@@ -288,7 +288,7 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
                                                                 navTransparent={true}
                                                                 tabs={this.getResourceTabs(application, selectedNode, data.liveState, data.events, [
                                                                     {
-                                                                        title: 'SUMMARY',
+                                                                        title: '基本信息',
                                                                         key: 'summary',
                                                                         content: (
                                                                             <ApplicationNodeInfo
@@ -311,12 +311,12 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
                                                         navTransparent={true}
                                                         tabs={[
                                                             {
-                                                                title: 'SUMMARY',
+                                                                title: '基本信息',
                                                                 key: 'summary',
                                                                 content: <ApplicationSummary app={application} updateApp={app => this.updateApp(app)} />
                                                             },
                                                             {
-                                                                title: 'PARAMETERS',
+                                                                title: '参数设置',
                                                                 key: 'parameters',
                                                                 content: (
                                                                     <DataLoader
@@ -334,7 +334,7 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
                                                                 )
                                                             },
                                                             {
-                                                                title: 'MANIFEST',
+                                                                title: '资源清单',
                                                                 key: 'manifest',
                                                                 content: (
                                                                     <YamlEditor
@@ -352,7 +352,7 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
                                                             },
                                                             {
                                                                 icon: 'fa fa-file-medical',
-                                                                title: 'DIFF',
+                                                                title: '差异',
                                                                 key: 'diff',
                                                                 content: (
                                                                     <DataLoader
@@ -374,7 +374,7 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
                                                                 )
                                                             },
                                                             {
-                                                                title: 'EVENTS',
+                                                                title: '事件',
                                                                 key: 'event',
                                                                 content: <ApplicationResourceEvents applicationName={application.metadata.name} />
                                                             }
@@ -418,42 +418,42 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
         return [
             {
                 iconClassName: 'fa fa-info-circle',
-                title: <span className='show-for-medium'>App Details</span>,
+                title: <span className='show-for-medium'>应用信息</span>,
                 action: () => this.selectNode(fullName)
             },
             {
                 iconClassName: 'fa fa-file-medical',
-                title: <span className='show-for-medium'>App Diff</span>,
+                title: <span className='show-for-medium'>应用差异</span>,
                 action: () => this.selectNode(fullName, 0, 'diff'),
                 disabled: app.status.sync.status === SyncStatuses.Synced
             },
             {
                 iconClassName: 'fa fa-sync',
-                title: <span className='show-for-medium'>Sync</span>,
+                title: <span className='show-for-medium'>同步</span>,
                 action: () => this.showDeploy('all')
             },
             {
                 iconClassName: 'fa fa-info-circle',
-                title: <span className='show-for-medium'>Sync Status</span>,
+                title: <span className='show-for-medium'>同步状态</span>,
                 action: () => this.setOperationStatusVisible(true),
                 disabled: !app.status.operationState
             },
             {
                 iconClassName: 'fa fa-history',
-                title: <span className='show-for-medium'>History and rollback</span>,
+                title: <span className='show-for-medium'>历史记录和回滚</span>,
                 action: () => this.setRollbackPanelVisible(0),
                 disabled: !app.status.operationState
             },
             {
                 iconClassName: 'fa fa-times-circle',
-                title: <span className='show-for-medium'>Delete</span>,
+                title: <span className='show-for-medium'>删除</span>,
                 action: () => this.deleteApplication()
             },
             {
                 iconClassName: classNames('fa fa-redo', {'status-icon--spin': !!refreshing}),
                 title: (
                     <React.Fragment>
-                        <span className='show-for-medium'>Refresh</span>{' '}
+                        <span className='show-for-medium'>刷新</span>{' '}
                         <DropDownMenu
                             items={[
                                 {
@@ -528,7 +528,7 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
     }
 
     private onAppDeleted() {
-        this.appContext.apis.notifications.show({type: NotificationType.Success, content: `Application '${this.props.match.params.name}' was deleted`});
+        this.appContext.apis.notifications.show({type: NotificationType.Success, content: `应用 '${this.props.match.params.name}' 已删除`});
         this.appContext.apis.navigation.goto('/applications');
     }
 
@@ -593,10 +593,10 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
     private async rollbackApplication(revisionHistory: appModels.RevisionHistory, application: appModels.Application) {
         try {
             const needDisableRollback = application.spec.syncPolicy && application.spec.syncPolicy.automated;
-            let confirmationMessage = `Are you sure you want to rollback application '${this.props.match.params.name}'?`;
+            let confirmationMessage = `你确定希望回滚应用 '${this.props.match.params.name}'?`;
             if (needDisableRollback) {
-                confirmationMessage = `Auto-Sync needs to be disabled in order for rollback to occur.
-Are you sure you want to disable auto-sync and rollback application '${this.props.match.params.name}'?`;
+                confirmationMessage = `为了能够回滚应用，需要先关闭自动同步。
+你确定希望回滚应用 '${this.props.match.params.name}'并关闭同步?`;
             }
 
             const confirmed = await this.appContext.apis.popup.confirm('Rollback application', confirmationMessage);
@@ -612,7 +612,7 @@ Are you sure you want to disable auto-sync and rollback application '${this.prop
             }
         } catch (e) {
             this.appContext.apis.notifications.show({
-                content: <ErrorNotification title='Unable to rollback application' e={e} />,
+                content: <ErrorNotification title='无法回滚应用' e={e} />,
                 type: NotificationType.Error
             });
         }
@@ -631,23 +631,23 @@ Are you sure you want to disable auto-sync and rollback application '${this.prop
             const items: MenuItem[] = [
                 ...((isRoot && [
                     {
-                        title: 'Sync',
+                        title: '同步',
                         action: () => this.showDeploy(nodeKey(resource))
                     }
                 ]) ||
                     []),
                 {
-                    title: 'Delete',
+                    title: '删除',
                     action: async () => {
                         this.appContext.apis.popup.prompt(
-                            'Delete resource',
+                            '删除资源',
                             () => (
                                 <div>
                                     <p>
-                                        Are your sure you want to delete {resource.kind} '{resource.name}'?
+                                        你确定希望继续删除 {resource.kind} '{resource.name}'?
                                     </p>
                                     <div className='argo-form-row' style={{paddingLeft: '30px'}}>
-                                        <Checkbox id='force-delete-checkbox' field='force' /> <label htmlFor='force-delete-checkbox'>Force delete</label>
+                                        <Checkbox id='force-delete-checkbox' field='force' /> <label htmlFor='force-delete-checkbox'>强制删除</label>
                                     </div>
                                 </div>
                             ),
@@ -659,7 +659,7 @@ Are you sure you want to disable auto-sync and rollback application '${this.prop
                                         close();
                                     } catch (e) {
                                         this.appContext.apis.notifications.show({
-                                            content: <ErrorNotification title='Unable to delete resource' e={e} />,
+                                            content: <ErrorNotification title='无法删除资源' e={e} />,
                                             type: NotificationType.Error
                                         });
                                     }
@@ -687,7 +687,7 @@ Are you sure you want to disable auto-sync and rollback application '${this.prop
                                     }
                                 } catch (e) {
                                     this.appContext.apis.notifications.show({
-                                        content: <ErrorNotification title='Unable to execute resource action' e={e} />,
+                                        content: <ErrorNotification title='无法执行资源操作' e={e} />,
                                         type: NotificationType.Error
                                     });
                                 }
@@ -730,7 +730,7 @@ Are you sure you want to disable auto-sync and rollback application '${this.prop
         if (state) {
             const numErrors = events.filter(event => event.type !== 'Normal').reduce((total, event) => total + event.count, 0);
             tabs.push({
-                title: 'EVENTS',
+                title: '事件',
                 badge: (numErrors > 0 && numErrors) || null,
                 key: 'events',
                 content: (
@@ -744,19 +744,19 @@ Are you sure you want to disable auto-sync and rollback application '${this.prop
             const containerGroups = [
                 {
                     offset: 0,
-                    title: 'INIT CONTAINERS',
+                    title: '容器初始化',
                     containers: state.spec.initContainers || []
                 },
                 {
                     offset: (state.spec.initContainers || []).length,
-                    title: 'CONTAINERS',
+                    title: '容器',
                     containers: state.spec.containers || []
                 }
             ];
             tabs = tabs.concat([
                 {
                     key: 'logs',
-                    title: 'LOGS',
+                    title: '日志',
                     content: (
                         <div className='application-details__tab-content-full-height'>
                             <div className='row'>

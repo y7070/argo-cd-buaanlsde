@@ -163,6 +163,7 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
     const [createApi, setCreateApi] = React.useState(null);
     const clusters = React.useMemo(() => services.clusters.list(), []);
     const [isAppCreatePending, setAppCreatePending] = React.useState(false);
+    const searchBar = React.useRef<HTMLDivElement>(null);
 
     const loaderRef = React.useRef<DataLoader>();
     function refreshApp(appName: string) {
@@ -196,9 +197,9 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
             <Consumer>
                 {ctx => (
                     <Page
-                        title='Applications'
+                        title='应用管理'
                         toolbar={services.viewPreferences.getPreferences().map(pref => ({
-                            breadcrumbs: [{title: 'Applications', path: '/applications'}],
+                            breadcrumbs: [{title: '应用部署管理页面', path: '/applications'}],
                             tools: (
                                 <React.Fragment key='app-list-tools'>
                                     <span className='applications-list__view-type'>
@@ -232,13 +233,13 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                             actionMenu: {
                                 items: [
                                     {
-                                        title: 'New App',
+                                        title: '创建新应用',
                                         iconClassName: 'fa fa-plus',
                                         qeId: 'applications-list-button-new-app',
                                         action: () => ctx.navigation.goto('.', {new: '{}'})
                                     },
                                     {
-                                        title: 'Sync Apps',
+                                        title: '同步应用',
                                         iconClassName: 'fa fa-sync',
                                         action: () => ctx.navigation.goto('.', {syncApps: true})
                                     }
@@ -259,13 +260,13 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                         {(applications: models.Application[]) =>
                                             applications.length === 0 && (pref.labelsFilter || []).length === 0 ? (
                                                 <EmptyState icon='argo-icon-application'>
-                                                    <h4>No applications yet</h4>
-                                                    <h5>Create new application to start managing resources in your cluster</h5>
+                                                    <h4>还未创建应用</h4>
+                                                    <h5>在你的集群上创建新应用并管理他们！</h5>
                                                     <button
                                                         qe-id='applications-list-button-create-application'
                                                         className='argo-button argo-button--base'
                                                         onClick={() => ctx.navigation.goto('.', {new: JSON.stringify({})})}>
-                                                        Create application
+                                                        创建新应用
                                                     </button>
                                                 </EmptyState>
                                             ) : (
@@ -273,8 +274,15 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                                     <div className='columns small-12 xxlarge-2'>
                                                         <Query>
                                                             {q => (
-                                                                <div className='applications-list__search'>
-                                                                    <i className='fa fa-search' />
+                                                                <div className='applications-list__search' ref={searchBar}>
+                                                                    <i
+                                                                        className='fa fa-search'
+                                                                        onClick={() => {
+                                                                            if (searchBar.current) {
+                                                                                searchBar.current.querySelector('input').focus();
+                                                                            }
+                                                                        }}
+                                                                    />
                                                                     {q.get('search') && (
                                                                         <i className='fa fa-times' onClick={() => ctx.navigation.goto('.', {search: null}, {replace: true})} />
                                                                     )}
@@ -290,7 +298,7 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                                                                     }
                                                                                 }}
                                                                                 className='argo-field'
-                                                                                placeholder='Search applications...'
+                                                                                placeholder='搜索应用...'
                                                                             />
                                                                         )}
                                                                         renderItem={item => (
@@ -337,15 +345,15 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                                                 page={pref.page}
                                                                 emptyState={() => (
                                                                     <EmptyState icon='fa fa-search'>
-                                                                        <h4>No matching applications found</h4>
+                                                                        <h4>未找到指定应用</h4>
                                                                         <h5>
-                                                                            Change filter criteria or&nbsp;
+                                                                            修改过滤条件或者&nbsp;
                                                                             <a
                                                                                 onClick={() => {
                                                                                     AppsListPreferences.clearFilters(pref);
                                                                                     onFilterPrefChanged(ctx, pref);
                                                                                 }}>
-                                                                                clear filters
+                                                                                清除过滤
                                                                             </a>
                                                                         </h5>
                                                                     </EmptyState>
@@ -405,10 +413,10 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                         disabled={isAppCreatePending}
                                         onClick={() => createApi && createApi.submitForm(null)}>
                                         <Spinner show={isAppCreatePending} style={{marginRight: '5px'}} />
-                                        Create
+                                        创建
                                     </button>{' '}
                                     <button onClick={() => ctx.navigation.goto('.', {new: null})} className='argo-button argo-button--base-o'>
-                                        Cancel
+                                        取消
                                     </button>
                                 </div>
                             }>
@@ -424,7 +432,7 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                             ctx.navigation.goto('.', {new: null});
                                         } catch (e) {
                                             ctx.notifications.show({
-                                                content: <ErrorNotification title='Unable to create application' e={e} />,
+                                                content: <ErrorNotification title='无法创建应用' e={e} />,
                                                 type: NotificationType.Error
                                             });
                                         } finally {

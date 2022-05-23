@@ -24,35 +24,35 @@ export const ApplicationsSummary = ({applications}: {applications: models.Applic
 
     const attributes = [
         {
-            title: 'APPLICATIONS:',
+            title: '应用:',
             value: applications.length
         },
         {
-            title: 'SYNCED:',
+            title: '已同步:',
             value: applications.filter(app => app.status.sync.status === 'Synced').length
         },
         {
-            title: 'HEALTHY:',
+            title: '健康:',
             value: applications.filter(app => app.status.health.status === 'Healthy').length
         },
         {
-            title: 'CLUSTERS:',
+            title: '集群:',
             value: new Set(applications.map(app => app.spec.destination.server)).size
         },
         {
-            title: 'NAMESPACES:',
+            title: '命名空间:',
             value: new Set(applications.map(app => app.spec.destination.namespace)).size
         }
     ];
 
     const charts = [
         {
-            title: 'Sync',
+            title: '同步状况',
             data: Array.from(sync.keys()).map(key => ({title: key, value: sync.get(key), color: syncColors.get(key as models.SyncStatusCode)})),
             legend: syncColors as Map<string, string>
         },
         {
-            title: 'Health',
+            title: '健康状况',
             data: Array.from(health.keys()).map(key => ({title: key, value: health.get(key), color: healthColors.get(key as models.HealthStatusCode)})),
             legend: healthColors as Map<string, string>
         }
@@ -62,7 +62,7 @@ export const ApplicationsSummary = ({applications}: {applications: models.Applic
             <div className='row'>
                 <div className='columns large-3 small-12'>
                     <div className='white-box__details'>
-                        <p className='row'>SUMMARY</p>
+                        <p className='row'>总览</p>
                         {attributes.map(attr => (
                             <div className='row white-box__details-row' key={attr.title}>
                                 <div className='columns small-8'>{attr.title}</div>

@@ -26,11 +26,11 @@ export const ApplicationsTable = (props: {
                         <div className='row applications-list__table-row' onClick={e => ctx.navigation.goto(`/applications/${app.metadata.name}`, {}, {event: e})}>
                             <div className='columns small-4'>
                                 <div className='row'>
-                                    <div className='show-for-xxlarge columns small-3'>Project:</div>
+                                    <div className='show-for-xxlarge columns small-3'>项目组:</div>
                                     <div className='columns small-12 xxlarge-9'>{app.spec.project}</div>
                                 </div>
                                 <div className='row'>
-                                    <div className='show-for-xxlarge columns small-3'>Name:</div>
+                                    <div className='show-for-xxlarge columns small-3'>应用名:</div>
                                     <div className='columns small-12 xxlarge-9'>
                                         {app.metadata.name} <ApplicationURLs urls={app.status.summary.externalURLs} />
                                     </div>
@@ -38,7 +38,7 @@ export const ApplicationsTable = (props: {
                             </div>
                             <div className='columns small-6'>
                                 <div className='row'>
-                                    <div className='show-for-xxlarge columns small-2'>Source:</div>
+                                    <div className='show-for-xxlarge columns small-2'>配置仓库:</div>
                                     <div className='columns small-12 xxlarge-10' style={{position: 'relative'}}>
                                         {app.spec.source.repoURL}/{app.spec.source.path || app.spec.source.chart}
                                         <div className='applications-table__meta'>
@@ -50,7 +50,7 @@ export const ApplicationsTable = (props: {
                                     </div>
                                 </div>
                                 <div className='row'>
-                                    <div className='show-for-xxlarge columns small-2'>Destination:</div>
+                                    <div className='show-for-xxlarge columns small-2'>目标集群:</div>
                                     <div className='columns small-12 xxlarge-10'>
                                         <Cluster server={app.spec.destination.server} name={app.spec.destination.name} />/{app.spec.destination.namespace}
                                     </div>

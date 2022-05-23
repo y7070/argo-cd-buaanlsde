@@ -31,11 +31,11 @@ export class Page extends React.Component<{title: string; toolbar?: Toolbar | Ob
                                 {loggedIn =>
                                     loggedIn ? (
                                         <a key='logout' onClick={() => this.goToLogin(true)}>
-                                            Log out
+                                            admin
                                         </a>
                                     ) : (
                                         <a key='login' onClick={() => this.goToLogin(false)}>
-                                            Log in
+                                            admin
                                         </a>
                                     )
                                 }

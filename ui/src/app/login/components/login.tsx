@@ -52,8 +52,8 @@ export class Login extends React.Component<RouteComponentProps<{}>, State> {
         return (
             <div className='login'>
                 <div className='login__content'>
-                    <div className='login__text'>Let's get stuff deployed!</div>
-                    <div className='argo__logo' />
+                    <div className='login__text'>欢迎使用服务适配持续部署工具！!</div>
+                    {/* <div className='argo__logo' /> */}
                 </div>
                 <div className='login__box'>
                     <div className='login__logo width-control'>
@@ -105,11 +105,11 @@ export class Login extends React.Component<RouteComponentProps<{}>, State> {
                     {authSettings && authSettings.userLoginsDisabled && !ssoConfigured && (
                         <div className='argo-form-row__error-msg'>Login is disabled. Please contact your system administrator.</div>
                     )}
-                    <div className='login__footer'>
+                    {/* <div className='login__footer'>
                         <a href='https://argoproj.io' target='_blank'>
                             <img className='logo-image' src='assets/images/argologo.svg' alt='argo' />
                         </a>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         );

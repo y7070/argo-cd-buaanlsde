@@ -1,7 +1,7 @@
 import {AutocompleteField, DropDownMenu, FormField, FormSelect, HelpIcon, PopupApi} from 'argo-ui';
 import * as React from 'react';
 import {FormApi, Text} from 'react-form';
-import {Cluster, DataLoader, EditablePanel, EditablePanelItem, Expandable, MapInputField, NumberField, Repo, Revision, RevisionHelpIcon} from '../../../shared/components';
+import {Cluster, DataLoader, EditablePanel, EditablePanelItem, Expandable, MapInputField, Repo, Revision, RevisionHelpIcon} from '../../../shared/components';
 import {BadgePanel, Spinner} from '../../../shared/components';
 import {Consumer} from '../../../shared/context';
 import * as models from '../../../shared/models';
@@ -35,7 +35,7 @@ export const ApplicationSummary = (props: {app: models.Application; updateApp: (
     const [changeSync, setChangeSync] = React.useState(false);
     const attributes = [
         {
-            title: 'PROJECT',
+            title: '项目组',
             view: <a href={'/settings/projects/' + app.spec.project}>{app.spec.project}</a>,
             edit: (formApi: FormApi) => (
                 <DataLoader load={() => services.projects.list('items.metadata.name').then(projs => projs.map(item => item.metadata.name))}>
@@ -44,14 +44,14 @@ export const ApplicationSummary = (props: {app: models.Application; updateApp: (
             )
         },
         {
-            title: 'LABELS',
+            title: '标签',
             view: Object.keys(app.metadata.labels || {})
                 .map(label => `${label}=${app.metadata.labels[label]}`)
                 .join(' '),
             edit: (formApi: FormApi) => <FormField formApi={formApi} field='metadata.labels' component={MapInputField} />
         },
         {
-            title: 'ANNOTATIONS',
+            title: '注释',
             view: (
                 <Expandable height={48}>
                     {Object.keys(app.metadata.annotations || {})
@@ -62,7 +62,7 @@ export const ApplicationSummary = (props: {app: models.Application; updateApp: (
             edit: (formApi: FormApi) => <FormField formApi={formApi} field='metadata.annotations' component={MapInputField} />
         },
         {
-            title: 'CLUSTER',
+            title: '集群',
             view: <Cluster server={app.spec.destination.server} name={app.spec.destination.name} showUrl={true} />,
             edit: (formApi: FormApi) => (
                 <DataLoader load={() => services.clusters.list().then(clusters => clusters.sort())}>
@@ -123,12 +123,12 @@ export const ApplicationSummary = (props: {app: models.Application; updateApp: (
             )
         },
         {
-            title: 'NAMESPACE',
+            title: '命名空间',
             view: app.spec.destination.namespace,
             edit: (formApi: FormApi) => <FormField formApi={formApi} field='spec.destination.namespace' component={Text} />
         },
         {
-            title: 'REPO URL',
+            title: '配置仓库地址',
             view: <Repo url={app.spec.source.repoURL} />,
             edit: (formApi: FormApi) => <FormField formApi={formApi} field='spec.source.repoURL' component={Text} />
         },
@@ -186,23 +186,23 @@ export const ApplicationSummary = (props: {app: models.Application; updateApp: (
               ]
             : [
                   {
-                      title: 'TARGET REVISION',
+                      title: '目标修改',
                       view: <Revision repoUrl={app.spec.source.repoURL} revision={app.spec.source.targetRevision || 'HEAD'} />,
                       edit: (formApi: FormApi) => <RevisionFormField helpIconTop={'0'} hideLabel={true} formApi={formApi} repoURL={app.spec.source.repoURL} />
                   },
                   {
-                      title: 'PATH',
+                      title: '路径',
                       view: app.spec.source.path,
                       edit: (formApi: FormApi) => <FormField formApi={formApi} field='spec.source.path' component={Text} />
                   }
               ]),
 
         {
-            title: 'REVISION HISTORY LIMIT',
+            title: '历史修订限制',
             view: app.spec.revisionHistoryLimit,
             edit: (formApi: FormApi) => (
                 <div style={{position: 'relative'}}>
-                    <FormField formApi={formApi} field='spec.revisionHistoryLimit' componentProps={{style: {paddingRight: '1em'}, placeholder: '10'}} component={NumberField} />
+                    <FormField formApi={formApi} field='spec.revisionHistoryLimit' component={Text} />
                     <div style={{position: 'absolute', right: '0', top: '0'}}>
                         <HelpIcon
                             title='This limits this number of items kept in the apps revision history.
@@ -216,7 +216,7 @@ export const ApplicationSummary = (props: {app: models.Application; updateApp: (
             )
         },
         {
-            title: 'SYNC OPTIONS',
+            title: '同步选项',
             view: ((app.spec.syncPolicy || {}).syncOptions || []).join(', '),
             edit: (formApi: FormApi) => (
                 <div>
@@ -225,7 +225,7 @@ export const ApplicationSummary = (props: {app: models.Application; updateApp: (
             )
         },
         {
-            title: 'STATUS',
+            title: '状态',
             view: (
                 <span>
                     <ComparisonStatusIcon status={app.status.sync.status} /> {app.status.sync.status} {syncStatusMessage(app)}
@@ -233,7 +233,7 @@ export const ApplicationSummary = (props: {app: models.Application; updateApp: (
             )
         },
         {
-            title: 'HEALTH',
+            title: '健康状况',
             view: (
                 <span>
                     <HealthStatusIcon state={app.status.health} /> {app.status.health.status}

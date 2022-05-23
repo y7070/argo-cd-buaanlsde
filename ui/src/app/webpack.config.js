@@ -97,6 +97,8 @@ const config = {
         historyApiFallback: {
             disableDotRule: true
         },
+        //new add
+        contentBase: 'D:\\argocd\\dist\\app',
         port: 4000,
         host: process.env.ARGOCD_E2E_YARN_HOST || 'localhost',
         proxy: {

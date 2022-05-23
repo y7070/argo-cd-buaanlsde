@@ -1,9 +1,11 @@
 import {DataLoader, Layout, NavigationManager, Notifications, NotificationsManager, PageContext, Popup, PopupManager, PopupProps, Tooltip} from 'argo-ui';
+// import {NavigationManager, Notifications, NotificationsManager, PopupManager, PopupProps} from 'argo-ui';
 import {createBrowserHistory} from 'history';
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
 import {Helmet} from 'react-helmet';
 import {Redirect, Route, RouteComponentProps, Router, Switch} from 'react-router';
+// import {RouteComponentProps} from 'react-router';
 
 import applications from './applications';
 import help from './help';
@@ -32,12 +34,12 @@ const routes: {[path: string]: {component: React.ComponentType<RouteComponentPro
 
 const navItems = [
     {
-        title: 'Manage your applications, and diagnose health problems.',
+        title: 'Manage your applications, and diagnose health problems.xxxxxxxxx',
         path: '/applications',
         iconClassName: 'argo-icon-application'
     },
     {
-        title: 'Manage your repositories, projects, settings',
+        title: 'Manage your repositories, projects, settingsxxxxx',
         path: '/settings',
         iconClassName: 'argo-icon-settings'
     },
@@ -166,7 +168,7 @@ export class App extends React.Component<{}, {popupProps: PopupProps; showVersio
                     <link rel='icon' type='image/png' href={`${base}assets/favicon/favicon-32x32.png`} sizes='32x32' />
                     <link rel='icon' type='image/png' href={`${base}assets/favicon/favicon-16x16.png`} sizes='16x16' />
                 </Helmet>
-                <PageContext.Provider value={{title: 'Argo CD'}}>
+                <PageContext.Provider value={{title: '持续部署工具'}}>
                     <Provider value={{history, popup: this.popupManager, notifications: this.notificationsManager, navigation: this.navigationManager, baseHref: base}}>
                         {this.state.popupProps && <Popup {...this.state.popupProps} />}
                         <Router history={history}>

@@ -136,7 +136,7 @@ export class ApplicationsFilter extends React.Component<ApplicationsFilterProps,
                 </div>
                 <div className='applications-list__filters-container-contents row'>
                     <div className='columns small-12 medium-3 xxlarge-12'>
-                        <div className='applications-list__filter-title'>Sync</div>
+                        <div className='applications-list__filter-title'>同步状态</div>
                         <ItemsFilter
                             selected={pref.syncFilter}
                             onChange={selected => onChange({...pref, syncFilter: selected})}
@@ -145,7 +145,7 @@ export class ApplicationsFilter extends React.Component<ApplicationsFilterProps,
                         />
                     </div>
                     <div className='columns small-12 medium-3 xxlarge-12'>
-                        <div className='applications-list__filter-title'>Health</div>
+                        <div className='applications-list__filter-title'>健康状况</div>
                         <ItemsFilter
                             selected={pref.healthFilter}
                             onChange={selected => onChange({...pref, healthFilter: selected})}
@@ -155,7 +155,7 @@ export class ApplicationsFilter extends React.Component<ApplicationsFilterProps,
                     </div>
                     <div className='columns small-12 medium-6 xxlarge-12'>
                         <div className='applications-list__filter'>
-                            <div className='applications-list__filter-title'>Labels</div>
+                            <div className='applications-list__filter-title'>标签</div>
                             <ul>
                                 <li>
                                     <TagsInput
@@ -166,7 +166,7 @@ export class ApplicationsFilter extends React.Component<ApplicationsFilterProps,
                                     />
                                 </li>
                             </ul>
-                            <div className='applications-list__filter-title'>Projects</div>
+                            <div className='applications-list__filter-title'>项目组</div>
                             <ul>
                                 <li>
                                     <DataLoader load={() => services.projects.list('items.metadata.name')}>
@@ -186,7 +186,7 @@ export class ApplicationsFilter extends React.Component<ApplicationsFilterProps,
                                     </DataLoader>
                                 </li>
                             </ul>
-                            <div className='applications-list__filter-title'>Clusters</div>
+                            <div className='applications-list__filter-title'>集群</div>
                             <ul>
                                 <li>
                                     <TagsInput
@@ -199,7 +199,7 @@ export class ApplicationsFilter extends React.Component<ApplicationsFilterProps,
                                     />
                                 </li>
                             </ul>
-                            <div className='applications-list__filter-title'>Namespaces</div>
+                            <div className='applications-list__filter-title'>命名空间</div>
                             <ul>
                                 <li>
                                     <TagsInput

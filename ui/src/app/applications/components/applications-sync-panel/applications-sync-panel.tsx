@@ -26,10 +26,10 @@ export const ApplicationsSyncPanel = ({show, apps, hide}: {show: boolean; apps: 
                     header={
                         <div>
                             <button className='argo-button argo-button--base' onClick={() => form.submitForm(null)}>
-                                Sync
+                                同步
                             </button>{' '}
                             <button onClick={() => hide()} className='argo-button argo-button--base-o'>
-                                Cancel
+                                取消
                             </button>
                         </div>
                     }>
@@ -62,9 +62,9 @@ export const ApplicationsSyncPanel = ({show, apps, hide}: {show: boolean; apps: 
                         {formApi => (
                             <React.Fragment>
                                 <div className='argo-form-row'>
-                                    <h4>Sync app(s)</h4>
+                                    <h4>应用同步</h4>
                                     {progress !== null && <ProgressPopup onClose={() => setProgress(null)} percentage={progress.percentage} title={progress.title} />}
-                                    <label>Options:</label>
+                                    <label>选项:</label>
                                     <div style={{paddingLeft: '1em'}}>
                                         <label>
                                             <Checkbox field='prune' /> Prune
@@ -83,11 +83,11 @@ export const ApplicationsSyncPanel = ({show, apps, hide}: {show: boolean; apps: 
                                         </label>
                                     </div>
                                     <label>
-                                        Apps (<a onClick={() => apps.forEach((_, i) => formApi.setValue('app/' + i, true))}>all</a>/
+                                        应用列表 (<a onClick={() => apps.forEach((_, i) => formApi.setValue('app/' + i, true))}>全部勾选</a>/
                                         <a onClick={() => apps.forEach((app, i) => formApi.setValue('app/' + i, app.status.sync.status === models.SyncStatuses.OutOfSync))}>
-                                            out of sync
+                                            未同步
                                         </a>
-                                        /<a onClick={() => apps.forEach((_, i) => formApi.setValue('app/' + i, false))}>none</a>
+                                        /<a onClick={() => apps.forEach((_, i) => formApi.setValue('app/' + i, false))}>全部取消</a>
                                         ):
                                     </label>
                                     <div style={{paddingLeft: '1em'}}>

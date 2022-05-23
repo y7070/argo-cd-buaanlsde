@@ -23,4 +23,3 @@ export * from './revision';
 export * from './timestamp';
 export * from './spinner';
 export * from './badge-panel/badge-panel';
-export * from './number-field';

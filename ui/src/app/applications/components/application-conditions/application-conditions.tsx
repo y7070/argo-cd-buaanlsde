@@ -9,8 +9,8 @@ require('./application-conditions.scss');
 export const ApplicationConditions = ({conditions}: {conditions: models.ApplicationCondition[]}) => {
     return (
         <div className='application-conditions'>
-            <h4>Application conditions</h4>
-            {(conditions.length === 0 && <p>Application is healthy</p>) || (
+            <h4>应用状态</h4>
+            {(conditions.length === 0 && <p>应用很健康</p>) || (
                 <div className='argo-table-list'>
                     {conditions.map((condition, index) => (
                         <div className={`argo-table-list__row application-conditions__condition application-conditions__condition--${getConditionCategory(condition)}`} key={index}>
