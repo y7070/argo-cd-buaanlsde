@@ -1,3 +1,16 @@
+# BUAANLSDE Refactor
+
+## 部署方式
+
+注意：这是基于集群中已有 argocd 情况的部署
+
+``` bash
+NAMESPACE=argocd-sig
+sed "s/NAMESPACE/${NAMESPACE}/g" ./manifests/install-with-exists.yaml | kubectl apply -n ${NAMESPACE} -f -
+```
+
+---
+
 [![Integration tests](https://github.com/argoproj/argo-cd/workflows/Integration%20tests/badge.svg?branch=master)](https://github.com/argoproj/argo-cd/actions?query=workflow%3A%22Integration+tests%22)
 [![slack](https://img.shields.io/badge/slack-argoproj-brightgreen.svg?logo=slack)](https://argoproj.github.io/community/join-slack)
 [![codecov](https://codecov.io/gh/argoproj/argo-cd/branch/master/graph/badge.svg)](https://codecov.io/gh/argoproj/argo-cd)
