@@ -92,6 +92,7 @@ FROM node:12.18.4 as argocd-ui
 WORKDIR /src
 ADD ["ui/package.json", "ui/yarn.lock", "./"]
 
+# RUN https_proxy=http://10.134.143.124:1080 yarn add --verbose 'argo-ui@git+https://github.com/LiRui-1997/argo-ui.git'
 RUN yarn install
 
 ADD ["ui/", "."]
