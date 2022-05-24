@@ -32,6 +32,21 @@ sed -e "s/NAMESPACE/${NAMESPACE}/g" -e "s#IMAGE#${IMAGE}#g" ./manifests/install-
     kubectl delete -n ${NAMESPACE} -f -
 ```
 
+### json 接口
+``` json
+{
+  "allocatable": {
+    "cpu": "10",
+    "memory": "10Gi"
+  },
+  "requested": {
+    "cpu": "8",
+    "memory": "8Gi"
+  },
+  "ratio": "12.32%"
+}
+```
+
 ---
 
 [![Integration tests](https://github.com/argoproj/argo-cd/workflows/Integration%20tests/badge.svg?branch=master)](https://github.com/argoproj/argo-cd/actions?query=workflow%3A%22Integration+tests%22)
