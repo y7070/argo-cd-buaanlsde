@@ -15,6 +15,21 @@ sed -e "s/NAMESPACE/${NAMESPACE}/g" -e "s#IMAGE#${IMAGE}#g" ./manifests/install-
 
 
 sed -e "s/NAMESPACE/${NAMESPACE}/g" ./manifests/ingress.yaml | kubectl apply -n ${NAMESPACE} -f -
+
+kubectl -n argocd-sig patch secret argocd-secret \
+  -p '{"stringData": {
+    "admin.password": "$2a$10$HnK0KqNxvUpEi4Ji.AsVjOcPmnM4CC5U7oAe1ZDJnHZ95WIV2Lywy",
+    "admin.passwordMtime": "'$(date +%FT%T%Z)'"
+  }}'
+```
+
+### uninstallation
+``` bash
+NAMESPACE=argocd-sig
+IMAGE=gitlab.buaanlsde.cn:4567/buaapyj/registry/argocd:v1.8.7-rc1
+
+sed -e "s/NAMESPACE/${NAMESPACE}/g" -e "s#IMAGE#${IMAGE}#g" ./manifests/install-with-exists.yaml |  
+    kubectl delete -n ${NAMESPACE} -f -
 ```
 
 ---

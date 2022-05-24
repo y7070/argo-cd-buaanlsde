@@ -44,8 +44,31 @@ export const ApplicationStatusPanel = ({application, showOperation, showConditio
                     {application.status.health.status}
                     <HelpIcon title='应用健康状况' />
                 </div>
+                { (application.status.health.status == 'Progressing' || application.status.health.status == 'Healthy') && (
+                    // TODO: add processing time here
+                    <div className='application-status-panel__item-value'>
+                        应用部署已用时间: 
+                        &nbsp;
+                        {application.status.health.status}
+                    </div>
+                )}
                 <div className='application-status-panel__item-name'>{application.status.health.message}</div>
             </div>
+            {appOperationState && (
+                // TODO: add resource calculation
+                <div className='application-status-panel__item columns small-2 '>
+                    <div className='application-status-panel__item-value'>
+                        已占用: 
+                        &nbsp;
+                        TODO
+                    </div>
+                    <div className='application-status-panel__item-value'>
+                        总可用: 
+                        &nbsp;
+                        TODO
+                    </div>
+                </div>
+            )}
             <div className='application-status-panel__item columns small-2' style={{position: 'relative'}}>
                 <div className='application-status-panel__item-value'>
                     <ComparisonStatusIcon status={application.status.sync.status} label={true} />

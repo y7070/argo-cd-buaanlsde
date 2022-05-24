@@ -457,7 +457,7 @@ spec:
       - command:
         - /shared/argocd-util
         - rundex
-        image: ghcr.io/dexidp/dex:v2.27.0
+        image: gitlab.buaanlsde.cn:4567/buaapyj/registry/dexidp/dex:v2.27.0
         imagePullPolicy: Always
         name: dex
         ports:
@@ -522,7 +522,7 @@ spec:
         - ""
         - --appendonly
         - "no"
-        image: redis:5.0.10-alpine
+        image: gitlab.buaanlsde.cn:4567/buaapyj/registry/redis:5.0.10-alpine
         imagePullPolicy: Always
         name: redis
         ports:
