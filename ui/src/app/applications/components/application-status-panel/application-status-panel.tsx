@@ -37,12 +37,10 @@ export const ApplicationStatusPanel = ({application, showOperation, showConditio
     if (application.metadata.deletionTimestamp) {
         showOperation = null;
     }
-    console.log(name);
     return (
         <Consumer>
             {ctx => (
                 <div className='application-status-panel row'>
-                    {console.log(ctx.applicationsTimeData)}
                     <div className='application-status-panel__item columns small-2'>
                         <div className='application-status-panel__item-value'>
                             <HealthStatusIcon state={application.status.health} />
