@@ -24,6 +24,11 @@ const base = bases.length > 0 ? bases[0].getAttribute('href') || '/' : '/';
 export const history = createBrowserHistory({basename: base});
 requests.setBaseHRef(base);
 
+let applicationsTimeData:any = {};
+function changeApplicationsTimeData(name:string,value:any){
+    applicationsTimeData[name] = value;
+}
+
 const routes: {[path: string]: {component: React.ComponentType<RouteComponentProps<any>>; noLayout?: boolean}} = {
     '/login': {component: login.component as any, noLayout: true},
     '/applications': {component: applications.component},
@@ -169,7 +174,7 @@ export class App extends React.Component<{}, {popupProps: PopupProps; showVersio
                     <link rel='icon' type='image/png' href={`${base}assets/favicon/favicon-16x16.png`} sizes='16x16' />
                 </Helmet>
                 <PageContext.Provider value={{title: '持续部署工具'}}>
-                    <Provider value={{history, popup: this.popupManager, notifications: this.notificationsManager, navigation: this.navigationManager, baseHref: base}}>
+                    <Provider value={{applicationsTimeData,changeApplicationsTimeData,history, popup: this.popupManager, notifications: this.notificationsManager, navigation: this.navigationManager, baseHref: base}}>
                         {this.state.popupProps && <Popup {...this.state.popupProps} />}
                         <Router history={history}>
                             <Switch>

@@ -50,6 +50,9 @@ export default {
     get(url: string) {
         return initHandlers(agent.get(`${apiRoot()}${url}`));
     },
+    getNew(url: string) {
+        return initHandlers(agent.get(`${url}`));
+    },
 
     post(url: string) {
         return initHandlers(agent.post(`${apiRoot()}${url}`));
