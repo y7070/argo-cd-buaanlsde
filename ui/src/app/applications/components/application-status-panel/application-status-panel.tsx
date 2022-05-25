@@ -61,20 +61,19 @@ export const ApplicationStatusPanel = ({application, showOperation, showConditio
                     {appOperationState && (
                         // TODO: add resource calculation
                         <div className='application-status-panel__item columns small-2 '>
-                            <div className='application-status-panel__item-value'>
-                                占用资源: 
-                                &nbsp;
-                                CPU: {cpuMemoryData.requested.cpu}, 内存: {cpuMemoryData.requested.memory}
+                            <div className='application-status-panel__item-value application-c-info-box'>
+                                <span className="application-c-label">占用资源:</span>
+                                <span className="application-c-value">CPU: {cpuMemoryData.requested.cpu}</span>
+                                <span className="application-c-value">内存: {cpuMemoryData.requested.memory}</span>
                             </div>
-                            <div className='application-status-panel__item-value'>
-                                可用资源: 
-                                &nbsp;
-                                CPU: {cpuMemoryData.allocatable.cpu}, 内存: {cpuMemoryData.allocatable.memory}
+                            <div className='application-status-panel__item-value application-c-info-box'>
+                                <span className="application-c-label">可用资源:</span>
+                                <span className="application-c-value">CPU: {cpuMemoryData.allocatable.cpu}</span>
+                                <span className="application-c-value">内存: {cpuMemoryData.allocatable.memory}</span>
                             </div>
-                            <div className='application-status-panel__item-value'>
-                                资源比例: 
-                                &nbsp;
-                                {cpuMemoryData.ratio}
+                            <div className='application-status-panel__item-value application-c-info-box'>
+                                <span className="application-c-label">资源比例:</span>
+                                <span className="application-c-value">{cpuMemoryData.ratio}</span>
                             </div>
                         </div>
                     )}
