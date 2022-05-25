@@ -184,7 +184,7 @@ export class ApplicationsService {
 
     public getCpuMemoryData(): Promise<models.ICpuMemory>{
         return requests
-            .getNew(`/newApi/test/data`)
+            .getNew(`${process.env.NODE_ENV == 'development' ? '/newApi/test/data' : 'https://resource-server.ingress.isa.buaanlsde.cn'}`)
             .query({})
             .then(res => res.body)
             .then(res => res as models.ICpuMemory);
