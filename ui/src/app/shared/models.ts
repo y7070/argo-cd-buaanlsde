@@ -120,6 +120,15 @@ export interface Application {
     operation?: Operation;
 }
 
+export interface ICpuMemoryItem {
+    cpu:string,
+    memory:string,
+}
+export interface ICpuMemory {
+    allocatable:ICpuMemoryItem,
+    requested:ICpuMemoryItem,
+    ratio:string,
+}
 type WatchType = 'ADDED' | 'MODIFIED' | 'DELETED' | 'ERROR';
 
 export interface ApplicationWatchEvent {

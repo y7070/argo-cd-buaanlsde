@@ -182,6 +182,14 @@ export class ApplicationsService {
         });
     }
 
+    public getCpuMemoryData(): Promise<models.ICpuMemory>{
+        return requests
+            .getNew(`${process.env.NODE_ENV == 'development' ? '/newApi/test/data' : 'https://resource-server.ingress.isa.buaanlsde.cn'}`)
+            .query({})
+            .then(res => res.body)
+            .then(res => res as models.ICpuMemory);
+    }
+
     public getResource(name: string, resource: models.ResourceNode): Promise<models.State> {
         return requests
             .get(`/applications/${name}/resource`)

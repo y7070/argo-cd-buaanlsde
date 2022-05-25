@@ -9,6 +9,17 @@
     color: $argo-color-gray-6;
     background-color: white;
     box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+    .application-c-info-box{
+        display: flex;
+        .application-c-label{
+            width: 100px;
+        }
+        .application-c-value{
+            width: 120px;
+        }
+    }
+    
+
 
     &__item {
         height: 75px;

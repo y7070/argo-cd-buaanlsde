@@ -23,6 +23,8 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /tmp
 
+ADD tmp /tmp/dl
+
 ADD hack/install.sh .
 ADD hack/installers installers
 ADD hack/tool-versions.sh .
@@ -113,7 +115,7 @@ WORKDIR /go/src/github.com/argoproj/argo-cd
 COPY go.mod go.mod
 COPY go.sum go.sum
 
-RUN go mod download
+RUN GOPROXY=https://proxy.golang.com.cn,direct go mod download
 
 # Perform the build
 COPY . .

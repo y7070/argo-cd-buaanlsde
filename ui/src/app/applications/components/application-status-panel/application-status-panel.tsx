@@ -5,6 +5,7 @@ import {Revision} from '../../../shared/components/revision';
 import {Timestamp} from '../../../shared/components/timestamp';
 import * as models from '../../../shared/models';
 import {services} from '../../../shared/services';
+import {Consumer} from '../../../shared/context';
 import * as utils from '../utils';
 import {ApplicationSyncWindowStatusIcon, ComparisonStatusIcon, getAppOperationState, HealthStatusIcon, OperationState, syncStatusMessage} from '../utils';
 import {RevisionMetadataPanel} from './revision-metadata-panel';
@@ -12,12 +13,14 @@ import {RevisionMetadataPanel} from './revision-metadata-panel';
 require('./application-status-panel.scss');
 
 interface Props {
+    cpuMemoryData:models.ICpuMemory,
+    name:string,
     application: models.Application;
     showOperation?: () => any;
     showConditions?: () => any;
 }
 
-export const ApplicationStatusPanel = ({application, showOperation, showConditions}: Props) => {
+export const ApplicationStatusPanel = ({application, showOperation, showConditions,cpuMemoryData,name}: Props) => {
     const today = new Date();
 
     let daysSinceLastSynchronized = 0;
@@ -34,121 +37,129 @@ export const ApplicationStatusPanel = ({application, showOperation, showConditio
     if (application.metadata.deletionTimestamp) {
         showOperation = null;
     }
-
     return (
-        <div className='application-status-panel row'>
-            <div className='application-status-panel__item columns small-2'>
-                <div className='application-status-panel__item-value'>
-                    <HealthStatusIcon state={application.status.health} />
-                    &nbsp;
-                    {application.status.health.status}
-                    <HelpIcon title='应用健康状况' />
-                </div>
-                { (application.status.health.status == 'Progressing' || application.status.health.status == 'Healthy') && (
-                    // TODO: add processing time here
-                    <div className='application-status-panel__item-value'>
-                        应用部署已用时间: 
-                        &nbsp;
-                        {application.status.health.status}
-                    </div>
-                )}
-                <div className='application-status-panel__item-name'>{application.status.health.message}</div>
-            </div>
-            {appOperationState && (
-                // TODO: add resource calculation
-                <div className='application-status-panel__item columns small-2 '>
-                    <div className='application-status-panel__item-value'>
-                        已占用: 
-                        &nbsp;
-                        TODO
-                    </div>
-                    <div className='application-status-panel__item-value'>
-                        总可用: 
-                        &nbsp;
-                        TODO
-                    </div>
-                </div>
-            )}
-            <div className='application-status-panel__item columns small-2' style={{position: 'relative'}}>
-                <div className='application-status-panel__item-value'>
-                    <ComparisonStatusIcon status={application.status.sync.status} label={true} />
-                    <HelpIcon title='表明您的应用是否进行了同步' />
-                </div>
-                <div className='application-status-panel__item-name'>{syncStatusMessage(application)}</div>
-                <div className='application-status-panel__item-name'>
-                    {application.status && application.status.sync && application.status.sync.revision && (
-                        <RevisionMetadataPanel appName={application.metadata.name} type={application.spec.source.chart && 'helm'} revision={application.status.sync.revision} />
-                    )}
-                </div>
-            </div>
-            {appOperationState && (
-                <div className='application-status-panel__item columns small-4 '>
-                    <div className={`application-status-panel__item-value application-status-panel__item-value--${appOperationState.phase}`}>
-                        <a onClick={() => showOperation && showOperation()}>
-                            <OperationState app={application} />
-                            <HelpIcon
-                                title={
-                                    '表明您的应用是否同步成功。距离上一次同步已经过去了' +
-                                    daysSinceLastSynchronized +
-                                    '天，点击可查看上次更新。'
-                                }
-                            />
-                        </a>
-                    </div>
-                    {appOperationState.syncResult && appOperationState.syncResult.revision && (
-                        <div className='application-status-panel__item-name'>
-                            To <Revision repoUrl={application.spec.source.repoURL} revision={appOperationState.syncResult.revision} />
+        <Consumer>
+            {ctx => (
+                <div className='application-status-panel row'>
+                    <div className='application-status-panel__item columns small-2'>
+                        <div className='application-status-panel__item-value'>
+                            <HealthStatusIcon state={application.status.health} />
+                            &nbsp;
+                            {application.status.health.status}
+                            <HelpIcon title='应用健康状况' />
                         </div>
-                    )}
-                    <div className='application-status-panel__item-name'>
-                        {appOperationState.phase} <Timestamp date={appOperationState.finishedAt || appOperationState.startedAt} />
-                    </div>
-                    {(appOperationState.syncResult && appOperationState.syncResult.revision && (
-                        <RevisionMetadataPanel
-                            appName={application.metadata.name}
-                            type={application.spec.source.chart && 'helm'}
-                            revision={appOperationState.syncResult.revision}
-                        />
-                    )) || <div className='application-status-panel__item-name'>{appOperationState.message}</div>}
-                </div>
-            )}
-            {application.status.conditions && (
-                <div className={`application-status-panel__item columns small-2`}>
-                    <div className='application-status-panel__item-value' onClick={() => showConditions && showConditions()}>
-                        {cntByCategory.get('info') && <a className='info'>{cntByCategory.get('info')} Info</a>}
-                        {cntByCategory.get('warning') && <a className='warning'>{cntByCategory.get('warning')} Warnings</a>}
-                        {cntByCategory.get('error') && <a className='error'>{cntByCategory.get('error')} Errors</a>}
-                    </div>
-                </div>
-            )}
-            <DataLoader
-                noLoaderOnInputChange={true}
-                input={application.metadata.name}
-                load={async name => {
-                    return await services.applications.getApplicationSyncWindowState(name);
-                }}>
-                {(data: models.ApplicationSyncWindowState) => (
-                    <React.Fragment>
-                        <div className='application-status-panel__item columns small-2' style={{position: 'relative'}}>
+                        { (application.status.health.status == 'Progressing' || application.status.health.status == 'Healthy') && (
+                            // TODO: add processing time here
                             <div className='application-status-panel__item-value'>
-                                {data.assignedWindows && (
-                                    <React.Fragment>
-                                        <ApplicationSyncWindowStatusIcon project={application.spec.project} state={data} />
-                                        <HelpIcon
-                                            title={
-                                                'The aggregate state of sync windows for this app. ' +
-                                                'Red: no syncs allowed. ' +
-                                                'Yellow: manual syncs allowed. ' +
-                                                'Green: all syncs allowed'
-                                            }
-                                        />
-                                    </React.Fragment>
-                                )}
+                                应用部署已用时间: 
+                                &nbsp;
+                                {ctx.applicationsTimeData[name] && ctx.applicationsTimeData[name].timerNum.toString() + 's' || '--'}
+                            </div>
+                        )}
+                        <div className='application-status-panel__item-name'>{application.status.health.message}</div>
+                    </div>
+                    {appOperationState && (
+                        // TODO: add resource calculation
+                        <div className='application-status-panel__item columns small-2 '>
+                            <div className='application-status-panel__item-value application-c-info-box'>
+                                <span className="application-c-label">占用资源:</span>
+                                <span className="application-c-value">CPU: {cpuMemoryData.requested.cpu}</span>
+                                <span className="application-c-value">内存: {cpuMemoryData.requested.memory}</span>
+                            </div>
+                            <div className='application-status-panel__item-value application-c-info-box'>
+                                <span className="application-c-label">可用资源:</span>
+                                <span className="application-c-value">CPU: {cpuMemoryData.allocatable.cpu}</span>
+                                <span className="application-c-value">内存: {cpuMemoryData.allocatable.memory}</span>
+                            </div>
+                            <div className='application-status-panel__item-value application-c-info-box'>
+                                <span className="application-c-label">资源比例:</span>
+                                <span className="application-c-value">{cpuMemoryData.ratio}</span>
                             </div>
                         </div>
-                    </React.Fragment>
-                )}
-            </DataLoader>
-        </div>
+                    )}
+                    <div className='application-status-panel__item columns small-2' style={{position: 'relative'}}>
+                        <div className='application-status-panel__item-value'>
+                            <ComparisonStatusIcon status={application.status.sync.status} label={true} />
+                            <HelpIcon title='表明您的应用是否进行了同步' />
+                        </div>
+                        <div className='application-status-panel__item-name'>{syncStatusMessage(application)}</div>
+                        <div className='application-status-panel__item-name'>
+                            {application.status && application.status.sync && application.status.sync.revision && (
+                                <RevisionMetadataPanel appName={application.metadata.name} type={application.spec.source.chart && 'helm'} revision={application.status.sync.revision} />
+                            )}
+                        </div>
+                    </div>
+                    {appOperationState && (
+                        <div className='application-status-panel__item columns small-4 '>
+                            <div className={`application-status-panel__item-value application-status-panel__item-value--${appOperationState.phase}`}>
+                                <a onClick={() => showOperation && showOperation()}>
+                                    <OperationState app={application} />
+                                    <HelpIcon
+                                        title={
+                                            '表明您的应用是否同步成功。距离上一次同步已经过去了' +
+                                            daysSinceLastSynchronized +
+                                            '天，点击可查看上次更新。'
+                                        }
+                                    />
+                                </a>
+                            </div>
+                            {appOperationState.syncResult && appOperationState.syncResult.revision && (
+                                <div className='application-status-panel__item-name'>
+                                    To <Revision repoUrl={application.spec.source.repoURL} revision={appOperationState.syncResult.revision} />
+                                </div>
+                            )}
+                            <div className='application-status-panel__item-name'>
+                                {appOperationState.phase} <Timestamp date={appOperationState.finishedAt || appOperationState.startedAt} />
+                            </div>
+                            {(appOperationState.syncResult && appOperationState.syncResult.revision && (
+                                <RevisionMetadataPanel
+                                    appName={application.metadata.name}
+                                    type={application.spec.source.chart && 'helm'}
+                                    revision={appOperationState.syncResult.revision}
+                                />
+                            )) || <div className='application-status-panel__item-name'>{appOperationState.message}</div>}
+                        </div>
+                    )}
+                    {application.status.conditions && (
+                        <div className={`application-status-panel__item columns small-2`}>
+                            <div className='application-status-panel__item-value' onClick={() => showConditions && showConditions()}>
+                                {cntByCategory.get('info') && <a className='info'>{cntByCategory.get('info')} Info</a>}
+                                {cntByCategory.get('warning') && <a className='warning'>{cntByCategory.get('warning')} Warnings</a>}
+                                {cntByCategory.get('error') && <a className='error'>{cntByCategory.get('error')} Errors</a>}
+                            </div>
+                        </div>
+                    )}
+                    <DataLoader
+                        noLoaderOnInputChange={true}
+                        input={application.metadata.name}
+                        load={async name => {
+                            return await services.applications.getApplicationSyncWindowState(name);
+                        }}>
+                        {(data: models.ApplicationSyncWindowState) => (
+                            <React.Fragment>
+                                <div className='application-status-panel__item columns small-2' style={{position: 'relative'}}>
+                                    <div className='application-status-panel__item-value'>
+                                        {data.assignedWindows && (
+                                            <React.Fragment>
+                                                <ApplicationSyncWindowStatusIcon project={application.spec.project} state={data} />
+                                                <HelpIcon
+                                                    title={
+                                                        'The aggregate state of sync windows for this app. ' +
+                                                        'Red: no syncs allowed. ' +
+                                                        'Yellow: manual syncs allowed. ' +
+                                                        'Green: all syncs allowed'
+                                                    }
+                                                />
+                                            </React.Fragment>
+                                        )}
+                                    </div>
+                                </div>
+                            </React.Fragment>
+                        )}
+                    </DataLoader>
+                </div>
+            )}
+        </Consumer>
+        
     );
 };

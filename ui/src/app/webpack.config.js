@@ -12,7 +12,9 @@ console.log(`Bundling in ${isProd ? 'production' : 'development'} mode...`);
 
 const proxyConf = {
     'target': process.env.ARGOCD_API_URL || 'http://localhost:8080',
+    // 'target':'https://argocd-sig.ingress.isa.buaanlsde.cn', //process.env.ARGOCD_API_URL || 'http://localhost:8080',
     'secure': false,
+    'changeOrigin': true
 };
 
 const config = {
@@ -21,6 +23,7 @@ const config = {
         filename: '[name].[hash].js',
         chunkFilename: '[name].[hash].chunk.js',
         path: __dirname + '/../../dist/app'
+        // path:path.join(__dirname,'./dist/app')
     },
 
     devtool: 'source-map',
@@ -99,10 +102,19 @@ const config = {
         },
         //new add
         contentBase: 'D:\\argocd\\dist\\app',
+        // contentBase:path.join(__dirname,'./dist/app'),
         port: 4000,
         host: process.env.ARGOCD_E2E_YARN_HOST || 'localhost',
         proxy: {
             '/api': proxyConf,
+            '/newApi/test/data':{
+                'target':'https://resource-server.ingress.isa.buaanlsde.cn', //process.env.ARGOCD_API_URL || 'http://localhost:8080',
+                'secure': false,
+                'changeOrigin': true,
+                'pathRewrite':{
+                    '/newApi/test/data':''
+                },
+            },
             '/auth': proxyConf,
             '/swagger-ui': proxyConf,
             '/swagger.json': proxyConf,
