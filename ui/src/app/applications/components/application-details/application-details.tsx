@@ -531,6 +531,30 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
             this.prevStatue = status;
         }
         this.currStatus = status;
+
+        // status change
+        if (this.currStatus != this.prevStatue) {
+            if (this.prevStatue == 'Progressing' && this.currStatus == 'Healthy') {
+                // Progressing => Healthy
+                if(cpuMemoryTimerInfo){
+                    clearInterval(cpuMemoryTimerInfo.timer);
+                }
+            } else if (this.currStatus == 'Progressing') {
+                // other => Progressing
+                // renew the clock now
+                let data = {
+                    timerNum:0,
+                    timer:setInterval(() => {
+                        data.timerNum++;
+                    },1000)
+                };
+                ctx.changeApplicationsTimeData(name,data);
+            }
+        }
+
+        this.prevStatue = this.currStatus
+
+        /*
         //  Missing => Progressing => Healthy
         if(this.currStatus != this.prevStatue){
             if(this.prevStatue == 'Healthy'){
@@ -554,6 +578,7 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
                 ctx.changeApplicationsTimeData(name,data);
             }
         }
+        */
     }
     private loadAppInfo(name: string): Observable<{application: appModels.Application; tree: appModels.ApplicationTree}> {
         return Observable.fromPromise(services.applications.get(name))

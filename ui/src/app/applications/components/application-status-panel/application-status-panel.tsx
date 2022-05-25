@@ -53,7 +53,7 @@ export const ApplicationStatusPanel = ({application, showOperation, showConditio
                             <div className='application-status-panel__item-value'>
                                 应用部署已用时间: 
                                 &nbsp;
-                                {ctx.applicationsTimeData[name] && ctx.applicationsTimeData[name].timerNum || '--'}
+                                {ctx.applicationsTimeData[name] && ctx.applicationsTimeData[name].timerNum.toString() + 's' || '--'}
                             </div>
                         )}
                         <div className='application-status-panel__item-name'>{application.status.health.message}</div>
