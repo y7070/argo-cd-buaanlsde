@@ -40,6 +40,8 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
 
     private appChanged = new BehaviorSubject<appModels.Application>(null);
     private cpuMemoryTimer:any = null;
+    private prevStatue:string = '';
+    private currStatus:string = '';
     constructor(props: RouteComponentProps<{name: string}>) {
         super(props);
         this.state = {
@@ -58,6 +60,9 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
     }
     componentWillMount(){
         this.loadCpuMemoryData();
+    }
+    componentWillUnmount(){
+        clearInterval(this.cpuMemoryTimer);
     }
     private get showOperationState() {
         return new URLSearchParams(this.props.history.location.search).get('operation') === 'true';
@@ -510,7 +515,7 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
     }
     private async loadCpuMemoryData(){
         clearInterval(this.cpuMemoryTimer);
-        setInterval(async () => {
+        this.cpuMemoryTimer = setInterval(async () => {
             const data = await services.applications.getCpuMemoryData();
             this.setState({
                 cpuMemoryData:data,
@@ -520,7 +525,19 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
     private getTimerStr(application:appModels.Application,ctx:any){
         const status = application.status.health.status;
         const name = this.props.match.params.name;
-        const cpuMemoryTimerInfo = ctx.applicationsTimeData[name];
+        let cpuMemoryTimerInfo = ctx.applicationsTimeData[name];
+        if(!this.prevStatue){
+            this.prevStatue = status;
+        }
+        this.currStatus = status;
+        //  Missing => Progressing => Healthy
+        if(this.currStatus != this.prevStatue){
+            if(this.prevStatue == 'Healthy'){
+                cpuMemoryTimerInfo = null;
+            }
+        }
+        this.prevStatue = this.currStatus;
+
         if(status == 'Healthy'){ 
             if(cpuMemoryTimerInfo){
                 clearInterval(cpuMemoryTimerInfo.timer);
