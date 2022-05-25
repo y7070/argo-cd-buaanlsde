@@ -6,7 +6,7 @@
 
 ``` bash
 NAMESPACE=argocd-sig
-IMAGE=gitlab.buaanlsde.cn:4567/buaapyj/registry/argocd:v1.8.7-rc1
+IMAGE=gitlab.buaanlsde.cn:4567/buaapyj/registry/argocd:v1.8.7-rc2
 
 kubectl create ns ${NAMESPACE}
 
@@ -26,7 +26,7 @@ kubectl -n argocd-sig patch secret argocd-secret \
 ### uninstallation
 ``` bash
 NAMESPACE=argocd-sig
-IMAGE=gitlab.buaanlsde.cn:4567/buaapyj/registry/argocd:v1.8.7-rc1
+IMAGE=gitlab.buaanlsde.cn:4567/buaapyj/registry/argocd:v1.8.7-rc2
 
 sed -e "s/NAMESPACE/${NAMESPACE}/g" -e "s#IMAGE#${IMAGE}#g" ./manifests/install-with-exists.yaml |  
     kubectl delete -n ${NAMESPACE} -f -

@@ -62,14 +62,19 @@ export const ApplicationStatusPanel = ({application, showOperation, showConditio
                         // TODO: add resource calculation
                         <div className='application-status-panel__item columns small-2 '>
                             <div className='application-status-panel__item-value'>
-                                已占用: 
+                                占用资源: 
                                 &nbsp;
-                                {cpuMemoryData.requested.cpu}
+                                CPU: {cpuMemoryData.requested.cpu}, 内存: {cpuMemoryData.requested.memory}
                             </div>
                             <div className='application-status-panel__item-value'>
-                                总可用: 
+                                可用资源: 
                                 &nbsp;
-                                {cpuMemoryData.requested.memory}
+                                CPU: {cpuMemoryData.allocatable.cpu}, 内存: {cpuMemoryData.allocatable.memory}
+                            </div>
+                            <div className='application-status-panel__item-value'>
+                                资源比例: 
+                                &nbsp;
+                                {cpuMemoryData.ratio}
                             </div>
                         </div>
                     )}

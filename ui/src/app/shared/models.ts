@@ -127,6 +127,7 @@ export interface ICpuMemoryItem {
 export interface ICpuMemory {
     allocatable:ICpuMemoryItem,
     requested:ICpuMemoryItem,
+    ratio:string,
 }
 type WatchType = 'ADDED' | 'MODIFIED' | 'DELETED' | 'ERROR';
 

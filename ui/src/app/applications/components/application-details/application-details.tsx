@@ -52,7 +52,8 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
                 requested:{
                     cpu:'--',
                     memory:'--',
-                }
+                },
+                ratio: '--'
             } as appModels.ICpuMemory,
         };
     }

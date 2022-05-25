@@ -219,7 +219,7 @@ argocd-util: clean-debug
 
 # EXTRA_ARGS= --build-arg http_proxy=http://10.134.143.124:1080 --build-arg https_proxy=http://10.134.143.124:1080 
 # EXTRA_ARGS= --build-arg http_proxy=http://127.0.0.1:12333 --build-arg https_proxy=http://127.0.0.1:12333
-EXTRA_ARGS= --build-arg https_proxy=http://10.134.143.124:1080 
+# EXTRA_ARGS= --build-arg https_proxy=http://10.134.143.124:1080 
 
 
 .PHONY: test-tools-image
