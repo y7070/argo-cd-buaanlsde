@@ -4,6 +4,10 @@
 
 注意：这是基于集群中已有 argocd 情况的部署
 
+镜像 `gitlab.buaanlsde.cn:4567/buaapyj/registry/argocd:v1.8.7-rc4` 会使用 `https://resource-server.ingress.isa.buaanlsde.cn` 来访问 resource-server
+
+镜像 `gitlab.buaanlsde.cn:4567/buaapyj/registry/argocd:v1.8.7-rc5` 会使用 `http://resource-server.ingress.isa.buaanlsde.cn:32750` 来访问 resource-server
+
 ``` bash
 NAMESPACE=argocd-sig
 IMAGE=gitlab.buaanlsde.cn:4567/buaapyj/registry/argocd:v1.8.7-rc4
