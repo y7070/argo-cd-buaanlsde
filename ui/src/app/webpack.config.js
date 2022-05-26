@@ -108,7 +108,7 @@ const config = {
         proxy: {
             '/api': proxyConf,
             '/newApi/test/data':{
-                'target':'http://resource-server.ingress.isa.buaanlsde.cn:32750', //process.env.ARGOCD_API_URL || 'http://localhost:8080',
+                'target':'https://resource-server.ingress.isa.buaanlsde.cn', //process.env.ARGOCD_API_URL || 'http://localhost:8080',
                 'secure': false,
                 'changeOrigin': true,
                 'pathRewrite':{

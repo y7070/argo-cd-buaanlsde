@@ -14,11 +14,9 @@ kubectl apply -f ./manifests/cluster-rbac/argocd-server-clusterrole.yaml
 
 镜像 `gitlab.buaanlsde.cn:4567/buaapyj/registry/argocd:v1.8.7-rc4` 会使用 `https://resource-server.ingress.isa.buaanlsde.cn` 来访问 resource-server
 
-镜像 `gitlab.buaanlsde.cn:4567/buaapyj/registry/argocd:v1.8.7-rc5` 会使用 `http://resource-server.ingress.isa.buaanlsde.cn:32750` 来访问 resource-server
-
 ``` bash
 NAMESPACE=argocd-sig
-IMAGE=gitlab.buaanlsde.cn:4567/buaapyj/registry/argocd:v1.8.7-rc5
+IMAGE=gitlab.buaanlsde.cn:4567/buaapyj/registry/argocd:v1.8.7-rc4
 
 kubectl create ns ${NAMESPACE}
 
@@ -38,7 +36,7 @@ kubectl -n argocd-sig patch secret argocd-secret \
 ### uninstallation
 ``` bash
 NAMESPACE=argocd-sig
-IMAGE=gitlab.buaanlsde.cn:4567/buaapyj/registry/argocd:v1.8.7-rc5
+IMAGE=gitlab.buaanlsde.cn:4567/buaapyj/registry/argocd:v1.8.7-rc4
 
 sed -e "s/NAMESPACE/${NAMESPACE}/g" -e "s#IMAGE#${IMAGE}#g" ./manifests/install-with-exists.yaml |  
     kubectl delete -n ${NAMESPACE} -f -
