@@ -4,6 +4,14 @@
 
 注意：这是基于集群中已有 argocd 情况的部署
 
+如果没有 argocd 部署如下额外 yaml:
+```
+kubectl apply -f ./manifests/crds/application-crd.yaml
+kubectl apply -f ./manifests/crds/appproject-crd.yaml
+kubectl apply -f ./manifests/cluster-rbac/argocd-application-controller-clusterrole.yaml
+kubectl apply -f ./manifests/cluster-rbac/argocd-server-clusterrole.yaml
+```
+
 镜像 `gitlab.buaanlsde.cn:4567/buaapyj/registry/argocd:v1.8.7-rc4` 会使用 `https://resource-server.ingress.isa.buaanlsde.cn` 来访问 resource-server
 
 镜像 `gitlab.buaanlsde.cn:4567/buaapyj/registry/argocd:v1.8.7-rc5` 会使用 `http://resource-server.ingress.isa.buaanlsde.cn:32750` 来访问 resource-server
