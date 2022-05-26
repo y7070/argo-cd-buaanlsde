@@ -534,8 +534,8 @@ export class ApplicationDetails extends React.Component<RouteComponentProps<{nam
 
         // status change
         if (this.currStatus != this.prevStatue) {
-            if (this.prevStatue == 'Progressing' && this.currStatus == 'Healthy') {
-                // Progressing => Healthy
+            if (this.currStatus == 'Healthy') {
+                // other => Healthy
                 if(cpuMemoryTimerInfo){
                     clearInterval(cpuMemoryTimerInfo.timer);
                 }
