@@ -35,8 +35,8 @@ const optionStyle: React.CSSProperties = {marginTop: '0.5em'};
 
 export const ApplicationSyncOptions = (props: ApplicationSyncOptionProps) => (
     <React.Fragment>
-        <div style={optionStyle}>{booleanOption('Validate', 'Use a schema to validate resource manifests', true, props)}</div>
-        <div style={optionStyle}>{booleanOption('CreateNamespace', 'Auto-create namespace', false, props)}</div>
+        <div style={optionStyle}>{booleanOption('Validate', '校验创建的资源', true, props)}</div>
+        <div style={optionStyle}>{booleanOption('CreateNamespace', '启用按需加载', false, props)}</div>
     </React.Fragment>
 );
 
