@@ -77,6 +77,18 @@ export const ApplicationStatusPanel = ({application, showOperation, showConditio
                             </div>
                         </div>
                     )}
+                    {appOperationState && (
+                        <div className='application-status-panel__item columns small-2 '>
+                            <div className='application-status-panel__item-value application-c-info-box'>
+                                <span className="application-c-label">正在运行的 Pod 数量:</span>
+                                <span className="application-c-value">{cpuMemoryData.podNumber}</span>
+                            </div>
+                            <div className='application-status-panel__item-value application-c-info-box'>
+                                <span className="application-c-label">使用的节点数量:</span>
+                                <span className="application-c-value">{cpuMemoryData.nodeNumber}</span>
+                            </div>
+                        </div>
+                    )}
                     <div className='application-status-panel__item columns small-2' style={{position: 'relative'}}>
                         <div className='application-status-panel__item-value'>
                             <ComparisonStatusIcon status={application.status.sync.status} label={true} />

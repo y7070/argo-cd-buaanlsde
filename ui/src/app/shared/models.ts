@@ -128,6 +128,8 @@ export interface ICpuMemory {
     allocatable:ICpuMemoryItem,
     requested:ICpuMemoryItem,
     ratio:string,
+    podNumber: string,
+    nodeNumber: string,
 }
 type WatchType = 'ADDED' | 'MODIFIED' | 'DELETED' | 'ERROR';
 
