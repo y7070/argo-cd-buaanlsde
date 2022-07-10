@@ -448,6 +448,14 @@ spec:
         app.kubernetes.io/name: argocd-dex-server
     spec:
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: nlsde.buaa.edu.cn/experiment
+                operator: In
+                values:
+                - "false"
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - podAffinityTerm:
@@ -456,6 +464,11 @@ spec:
                   app.kubernetes.io/part-of: argocd
               topologyKey: kubernetes.io/hostname
             weight: 5
+      tolerations:
+      - key: "exclude"
+        operator: "Exists"
+        effect: "NoSchedule"
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
       - command:
         - /shared/argocd-util
@@ -505,6 +518,14 @@ spec:
         app.kubernetes.io/name: argocd-redis
     spec:
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: nlsde.buaa.edu.cn/experiment
+                operator: In
+                values:
+                - "false"
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - podAffinityTerm:
@@ -519,6 +540,11 @@ spec:
                   app.kubernetes.io/part-of: argocd
               topologyKey: kubernetes.io/hostname
             weight: 5
+      tolerations:
+      - key: "exclude"
+        operator: "Exists"
+        effect: "NoSchedule"
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
       - args:
         - --save
@@ -555,6 +581,14 @@ spec:
         app.kubernetes.io/name: argocd-repo-server
     spec:
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: nlsde.buaa.edu.cn/experiment
+                operator: In
+                values:
+                - "false"
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - podAffinityTerm:
@@ -570,6 +604,11 @@ spec:
               topologyKey: kubernetes.io/hostname
             weight: 5
       automountServiceAccountToken: false
+      tolerations:
+      - key: "exclude"
+        operator: "Exists"
+        effect: "NoSchedule"
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
       - command:
         - uid_entrypoint.sh
@@ -635,6 +674,14 @@ spec:
         app.kubernetes.io/name: argocd-server
     spec:
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: nlsde.buaa.edu.cn/experiment
+                operator: In
+                values:
+                - "false"
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - podAffinityTerm:
@@ -649,6 +696,11 @@ spec:
                   app.kubernetes.io/part-of: argocd
               topologyKey: kubernetes.io/hostname
             weight: 5
+      tolerations:
+      - key: "exclude"
+        operator: "Exists"
+        effect: "NoSchedule"
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
       - command:
         - argocd-server
@@ -708,6 +760,14 @@ spec:
         app.kubernetes.io/name: argocd-application-controller
     spec:
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: nlsde.buaa.edu.cn/experiment
+                operator: In
+                values:
+                - "false"
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - podAffinityTerm:
@@ -722,6 +782,11 @@ spec:
                   app.kubernetes.io/part-of: argocd
               topologyKey: kubernetes.io/hostname
             weight: 5
+      tolerations:
+      - key: "exclude"
+        operator: "Exists"
+        effect: "NoSchedule"
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
       - command:
         - argocd-application-controller
